@@ -32,7 +32,7 @@ if user_input:
     # Extract the new AI message
     new_messages = new_history[len(history):]
     for msg in new_messages:
-        st.chat_message(name=(msg.name if hasattr(msg, "name") else "ai")).write(msg.content)
+        st.chat_message(name=getattr(msg, "name", "ai")).write(msg.content)
 
 
     # Update session memory
