@@ -20,6 +20,7 @@ tavily_search = TavilySearchResults(max_results=2)
 
 python_repl_tool = PythonREPLTool()
 
+
 class Supervisor(BaseModel):
     next: Literal["enhancer", "researcher", "coder"] = Field(
         description="Determines which specialist to activate next in the workflow sequence: "
@@ -29,6 +30,7 @@ class Supervisor(BaseModel):
     )
     reason: str = Field(
         description="Detailed justification for the routing decision, explaining the rationale behind selecting the particular specialist and how this advances the task toward completion."
+
     )
 
 def supervisor_node(state: MessagesState) -> Command[Literal["enhancer", "researcher", "coder"]]:
@@ -49,7 +51,7 @@ def supervisor_node(state: MessagesState) -> Command[Literal["enhancer", "resear
         4. Continue the process until the user's request is fully and satisfactorily resolved.
 
         Your objective is to create an efficient workflow that leverages each agent's strengths while minimizing unnecessary steps, ultimately delivering complete and accurate solutions to user requests.
-                 
+          Always respond with lowercase values ("enhancer", "researcher", or "coder") for the next field.       
     ''')
     
     messages = [
