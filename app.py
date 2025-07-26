@@ -186,6 +186,15 @@ system_prompt = '''
     Routing Guidelines:
     1. 'supervisor' Agent: ONLY for responses that are completely incorrect or off-topic.
     2. Respond with 'FINISH' in all other cases to end the workflow.
+
+You are a validation agent in a LangGraph workflow. 
+You must choose whether the task is complete or should be passed back to the Supervisor.
+Output ONLY a JSON matching this format:
+{
+  "next": "supervisor" or "FINISH",
+  "reason": "<detailed reasoning>"
+}
+Be strict. Do not make assumptions. Only respond with the JSON.
 '''
 
 class Validator(BaseModel):
