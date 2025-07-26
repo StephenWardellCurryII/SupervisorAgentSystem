@@ -41,7 +41,7 @@ def supervisor_node(state: MessagesState) -> Command[Literal["enhancer", "resear
 
         **Team Members**:
         1. **Prompt Enhancer**: Always consider this agent first. They clarify ambiguous requests, improve poorly defined queries, and ensure the task is well-structured before deeper processing begins.
-        2. **Researcher**: Specializes in information gathering, fact-finding, and collecting relevant data needed to address the user's request.
+        2. **Researcher**: Specializes in information gathering, fact-finding, and collecting relevant data needed to address the user's request using only Tavily Search.
         3. **Coder**: Focuses on technical implementation, calculations, data analysis, algorithm development, and coding solutions.
 
         **Your Responsibilities**:
@@ -114,7 +114,7 @@ def enhancer_node(state: MessagesState) -> Command[Literal["supervisor"]]:
 def research_node(state: MessagesState) -> Command[Literal["validator"]]:
 
     """
-        Research agent node that gathers information using Tavily search.
+        Research agent node that gathers information using only and only Tavily search.
         Takes the current task state, performs relevant research,
         and returns findings for validation.
     """
