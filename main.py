@@ -1,39 +1,46 @@
 import streamlit as st
 from langchain_core.messages import AIMessage, HumanMessage
-from app import run_graph_with_user_input  # Import from your LangGraph code
+from app import run_graph_with_user_input  # Your LangGraph flow
 
 st.set_page_config(page_title="LangGraph Multi-Agent Chatbot", layout="wide")
-st.title("Smart Research and Code Bot")
+st.title("🤖 Smart Research and Code Bot")
 
-# Initialize session state memory
+# Initialize chat history
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Display previous messages
+# Display chat history
 for msg in st.session_state.messages:
     if isinstance(msg, HumanMessage):
-        st.chat_message("user").write(msg.content)
+        with st.chat_message(name="user"):
+            st.markdown(msg.content)
     elif isinstance(msg, AIMessage):
-        st.chat_message("ai").write(msg.content)
+        with st.chat_message(name="assistant"):
+            st.markdown(msg.content)
     else:
-        st.chat_message("assistant").write(msg.content)
+        with st.chat_message(name="assistant"):
+            st.markdown(msg.content)
 
-# Chat input box
+# Input box
 user_input = st.chat_input("Ask your question...")
 
 if user_input:
-    # Display user input immediately
-    st.chat_message("user").write(user_input)
+    # Show user message instantly
+    with st.chat_message(name="user"):
+        st.markdown(user_input)
 
-    # Run through LangGraph
+    # Run LangGraph app
     history = st.session_state.messages
     new_history = run_graph_with_user_input(user_input, history)
 
-    # Extract the new AI message
+    # Extract new messages only
     new_messages = new_history[len(history):]
+
     for msg in new_messages:
-        st.chat_message(name=getattr(msg, "name", "ai")).write(msg.content)
+        role = "user" if isinstance(msg, HumanMessage) else "assistant"
+        with st.chat_message(name=role):
+            st.markdown(msg.content)
 
-
-    # Update session memory
+    # Save to session
     st.session_state.messages = new_history
+
