@@ -231,6 +231,9 @@ Output ONLY a JSON matching this format:
   "reason": "<detailed reasoning>"
 }
 Be strict. Do not make assumptions. Only respond with the JSON.
+Only output a JSON object like:
+   {\"next\": \"coder\", \"reason\": \"The task involves coding...\"}
+Do NOT call tools or wrap in <function=...> syntax. Simply choose a node.
 '''
 
 class Validator(BaseModel):
