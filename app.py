@@ -10,6 +10,23 @@ from dotenv import load_dotenv
 from langchain_experimental.tools import PythonREPLTool
 
 load_dotenv()
+from langchain.tools import tool
+@tool
+def safe_python_repl(code: str) -> str:
+    """Use ONLY for simple one-liner calculations, not full functions/classes."""
+    if ("class " in code or "def " in code or "\n" in code):
+        return "⚠️ Cannot execute full class or function definitions using this tool."
+    
+    try:
+        result = eval(code, {}, {})
+        return str(result)
+    except Exception:
+        try:
+            exec(code, globals())
+            return "✅ Executed successfully."
+        except Exception as e:
+            return f"❌ Execution error: {e}"
+
 
 from langchain_groq import ChatGroq
 
@@ -150,7 +167,7 @@ def code_node(state: MessagesState) -> Command[Literal["validator"]]:
 
     code_agent = create_react_agent(
         llm,
-        tools=[python_repl_tool],
+        tools=[safe_python_repl, python_repl_tool],
         state_modifier=(
             "You are a coder and analyst. Focus on mathematical calculations, analyzing, solving math questions, "
             "and executing code. Handle technical problem-solving and data tasks."
