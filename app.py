@@ -68,7 +68,8 @@ def supervisor_node(state: MessagesState) -> Command[Literal["enhancer", "resear
         4. Continue the process until the user's request is fully and satisfactorily resolved.
 
         Your objective is to create an efficient workflow that leverages each agent's strengths while minimizing unnecessary steps, ultimately delivering complete and accurate solutions to user requests.
-          Always respond with lowercase values ("enhancer", "researcher", or "coder") for the next field.       
+          Always respond with lowercase values ("enhancer", "researcher", or "coder") for the next field.  
+                     ENSURE ALWAYS THAT YOU MATCH THE SCHEMA SO THAT NO TOOL CALL VALIDATION FAIL EVERY HAPPENS DUE TO parameters for tool Supervisor did not match schema     
     ''')
     
     messages = [
