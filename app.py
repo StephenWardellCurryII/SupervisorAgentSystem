@@ -189,7 +189,7 @@ def code_node(state: MessagesState) -> Command[Literal["validator"]]:
         tools=[safe_python_repl],
         state_modifier=(
             "You are a coder and analyst. Focus on mathematical calculations, analyzing, solving math questions, "
-            "and executing code. Handle technical problem-solving and data tasks. Only use the tools provided in your toolbox. Do not invent or reference tools that are not in the list."
+            "and executing code. Handle technical problem-solving and data tasks. Only use the tools provided in your toolbox. Do not invent or reference tools that are not in the list. Do not use <function=...> tags or wrap functions as tool calls unless you're calling safe_python_repl"
         )
     )
 
