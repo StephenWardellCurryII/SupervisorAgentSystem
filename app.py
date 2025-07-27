@@ -167,7 +167,7 @@ def code_node(state: MessagesState) -> Command[Literal["validator"]]:
 
     code_agent = create_react_agent(
         llm,
-        tools=[safe_python_repl, python_repl_tool],
+        tools=[safe_python_repl],
         state_modifier=(
             "You are a coder and analyst. Focus on mathematical calculations, analyzing, solving math questions, "
             "and executing code. Handle technical problem-solving and data tasks."
