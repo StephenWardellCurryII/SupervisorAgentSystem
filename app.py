@@ -8,6 +8,8 @@ from langgraph.prebuilt import create_react_agent
 from IPython.display import Image, display 
 from dotenv import load_dotenv
 from langchain_experimental.tools import PythonREPLTool
+from langchain_core.tools import Tool
+
 
 load_dotenv()
 from langchain.tools import tool
@@ -26,6 +28,12 @@ def safe_python_repl(code: str) -> str:
             return "✅ Executed successfully."
         except Exception as e:
             return f"❌ Execution error: {e}"
+
+search_tool = Tool.from_function(
+    func=TavilySearchResults()._run,  # Calls the actual search
+    name="tavily_search",
+    description="Use this to search for real-time or factual information on the web."
+)
 
 
 from langchain_groq import ChatGroq
@@ -149,7 +157,7 @@ def research_node(state: MessagesState) -> Command[Literal["validator"]]:
     
     research_agent = create_react_agent(
         llm,  
-        tools=[tavily_search],  
+        tools=[search_tool],  
         state_modifier= "You are an Information Specialist with expertise in comprehensive research. Your responsibilities include:\n\n"
             "1. Identifying key information needs based on the query context\n"
             "2. Gathering relevant, accurate, and up-to-date information from reliable sources\n"
