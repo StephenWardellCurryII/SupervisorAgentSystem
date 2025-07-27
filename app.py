@@ -157,7 +157,7 @@ def research_node(state: MessagesState) -> Command[Literal["validator"]]:
     
     research_agent = create_react_agent(
         llm,  
-        tools=[search_tool],  
+        tools=[tavily_search],  
         state_modifier= "You are an Information Specialist with expertise in comprehensive research. Your responsibilities include:\n\n"
             "1. Identifying key information needs based on the query context\n"
             "2. Gathering relevant, accurate, and up-to-date information from reliable sources\n"
